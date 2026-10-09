@@ -3,6 +3,9 @@
 #include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+//"" are used because BLE_UART.h is in this project file,
+// while <> are used for installed libraries
+#include "BLE_UART.h"
 
 // Global variables
 #define SCREEN_WIDTH 128
@@ -20,14 +23,16 @@ void showOnOLED(String title, String message)
   display.setTextColor(SSD1306_WHITE);
 
   // Displaying the title
-  // The size of the text is different from the lab's because of an issue with displaying certain characters)
+  // The size of the text is different from the lab's because of
+  // an issue with displaying certain characters)
   display.setTextSize(2);
   display.setCursor(0, 0);
   display.println(title);
   display.drawLine(0,16,127,16,SSD1306_WHITE);
 
   // Displaying the message
-  // The posistion of the message is different from the lab's to accomadate for the issue with the title
+  // The posistion of the message is different from the lab's to
+  // accommodate for the issue with the title
   display.setTextSize(2);
   display.setCursor(0,24);
   display.println(message);
@@ -46,6 +51,9 @@ void setup()
   showOnOLED("Lab 8: BLE","Jacob");
 
   // BLE code
+  bleBegin("ESP32_Jacob");
+  Serial.println("BLE Started");
+  showOnOLED("BLE Ready","Waiting");
 }
 
 void loop()
