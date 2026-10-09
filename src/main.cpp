@@ -8,6 +8,7 @@
 #include "BLE_UART.h"
 
 // Global variables
+// OLED Global varaibles
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 
@@ -15,6 +16,9 @@
 #define OLED_RESET 17
 #define OLED_CS 5
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &SPI, OLED_DC, OLED_RESET, OLED_CS);
+
+// BLE Global varaibles
+bool wasConnected = false;
 
 // Functions
 void showOnOLED(String title, String message)
@@ -59,5 +63,18 @@ void setup()
 void loop()
 {
   // Connection status
+  if(bleIsConnected()==true && wasConnected==false)
+  {
+    wasConnected = true;
+    Serial.println("Phone Connected");
+    showOnOLED("BLE Status","Connected");
+  }
+  
+  if(bleIsConnected()==false && wasConnected==true);
+  {
+    wasConnected=false;
+    Serial.println("Phone Disconnected");
+    showOnOLED("BLE Status","Disconnected");
+  }
   // Messages
 }
