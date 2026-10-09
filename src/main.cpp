@@ -20,6 +20,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &SPI, OLED_DC, OLED_RESET,
 // BLE Global varaibles
 bool wasConnected = false;
 
+
 // Functions
 void showOnOLED(String title, String message)
 {
@@ -63,18 +64,27 @@ void setup()
 void loop()
 {
   // Connection status
-  if(bleIsConnected()==true && wasConnected==false)
+  if (bleIsConnected() == true && wasConnected == false)
   {
     wasConnected = true;
     Serial.println("Phone Connected");
-    showOnOLED("BLE Status","Connected");
+    showOnOLED("BLE Status", "Connected");
   }
-  
-  if(bleIsConnected()==false && wasConnected==true);
+
+  if (bleIsConnected() == false && wasConnected == true)
   {
-    wasConnected=false;
+    wasConnected = false;
     Serial.println("Phone Disconnected");
-    showOnOLED("BLE Status","Disconnected");
+    showOnOLED("BLE Status", "Disconnected");
   }
   // Messages
+  if(bleMessageAvailable() == true)
+  {
+    String message = bleReadMessage();
+
+    Serial.print("Received: ");
+    Serial.println(message);
+
+    showOnOLED("Message: ", message);
+  }
 }
